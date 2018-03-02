@@ -4,19 +4,32 @@ export default class Form extends React.Component {
   
   constructor(props) {
     super(props);
-
-    this.state = {name: this.props.name}
+    this.state = {movies: []}
+    this.fetchMovies = this.fetchMovies.bind(this)	    
   }
 
-  setName = (name) => {
-    this.setState({name: name});
-  };
+  componentDidMount() {
+    this.interval = setInterval(this.fetchMovies, 5 * 1000)	 
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  fetchMovies() {
+    fetch("/movies.json").
+    then((response) => response.json()).
+    then((movies)=> {
+       this.setState({movies});
+    })
+  }
 
   render() {
     return (	 
     <div>		    
-      <h4>{this.state.name}</h4>
-      <input type="text" value={this.state.name} onChange={(e) => this.setName(e.target.value)} />
+      <ul>
+      {this.state.movies.map(movie => <li key={movie.id}> {movie.title} - {movie.rating} </li>)} 
+      </ul>	
     </div>
     );
   }
