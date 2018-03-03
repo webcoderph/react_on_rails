@@ -17,7 +17,7 @@ export default class Form extends React.Component {
   }
 
   fetchMovies() {
-    fetch("/movies.json").
+    fetch("/movies.json", {headers: {'Content-Type': 'application/json', 'access-token': 'token', 'expiry': '000000', 'client': 'client', 'uid': 'uid'}}).
     then((response) => response.json()).
     then((movies)=> {
        this.setState({movies});

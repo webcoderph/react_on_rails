@@ -1,3 +1,6 @@
 class Api::V1::ApplicationController < ActionController::Base
-  protect_from_forgery :null_session
+  skip_before_action :protect_from_forgery
+  protect_from_forgery with: :null_session
+
+  include DeviseTokenAuth::Concerns::SetUserByToken
 end
